@@ -1,0 +1,50 @@
+<div class="container mt-2">
+    <ng-container *ngIf="customers; else failureOrLoading">
+        <div class="card">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <div *ngIf="searchCustomersFormGroup">
+                    <form [formGroup]="searchCustomersFormGroup"  (ngSubmit)="onSearchForCustomers()">
+                        <div class="input-group">
+                            <label class="input-group-text">Keyword:</label>
+                            <input type="text" formControlName="name" class="form-control">
+                            <button class="btn btn-outline-success">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of customers">
+                            <td>{{customer.name}}</td>
+                            <td>{{customer.email}}</td>
+                            <td>
+                                <button (click)="onDeleteCustomer(customer)" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #failureOrLoading>
+        <ng-container *ngIf="errorMessage; else loading">
+            <div ngClass="text-danger">
+                {{errorMessage}}
+            </div>
+        </ng-container>
+        <ng-template #loading>
+            <div>
+                loading
+            </div>
+        </ng-template>
+    </ng-template>    
+</div>

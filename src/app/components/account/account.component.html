@@ -1,0 +1,94 @@
+<div class="container mt-2">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Account</div>
+                <div class="card-body">
+                    <div *ngIf="accountsFormGroup">
+                        <form [formGroup]="accountsFormGroup" (ngSubmit)="onSearchAccount()">
+                            <div class="input-group">
+                                <div class="input-group-text">
+                                    <label for="">Account ID</label>
+                                    <input type="text" formControlName="id" class="form-control">
+                                </div>
+                                <button class="btn btn-outline-success">
+                                    <i class="bi bi-search"></i> Search
+                                </button>
+                            </div>
+                        </form>
+                        <ng-container *ngIf="account">
+                            <div class="mt-3 mt-3">
+                                <label>Account Id : </label>
+                                <label><strong>{{account.accountId}}</strong></label>
+                            </div>
+                            <div class="mb-3">
+                                <label>Balance : </label>
+                                <label><strong>{{account.balance}}</strong></label>
+                            </div>
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Description</th>
+                                        <th>Operation Type</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let op of account.accountOperationDTOS">
+                                            <td>{{op.id}}</td>
+                                            <td>{{op.description}}</td>
+                                            <td>{{op.operationType}}</td>
+                                            <td>{{op.amount}}</td>
+                                            <td>{{op.date}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" *ngIf="account">
+                <div class="card-header">Operations</div>
+                <div class="card-body">
+                    <div *ngIf="operationsFormGroup">
+                        <form [formGroup]="operationsFormGroup" (ngSubmit)="onSaveOperation()" method="post">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="debit">DEBIT: </label>
+                                <input type="radio"  formControlName="operationType" value="DEBIT" id="debit" class="form-check-input">
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="credit">CREDIT: </label>
+                                <input type="radio" formControlName="operationType" value="CREDIT" id="credit" class="form-check-input">
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="transfer">TRANSFER: </label>
+                                <input type="radio" formControlName="operationType" value="TRANSFER" id="transfer" class="form-check-input">
+                            </div>
+
+                            <div class="mb-3 mt-3" *ngIf="operationsFormGroup.value.operationType == 'TRANSFER'">
+                                <label class="form-label" for="">Account destination</label>
+                                <input type="text" formControlName="accountDestination" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="">Amount</label>
+                                <input type="text" formControlName="amount" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="">Description</label>
+                                <input type="text" formControlName="description" class="form-control">
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-success" [disabled]="!operationsFormGroup.valid">Save Operation</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
